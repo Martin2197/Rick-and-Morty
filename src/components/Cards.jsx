@@ -10,9 +10,9 @@ export default function Cards(props) {
             name={character.name}
             species={character.species}
             gender={character.gender}
-            //origin={character.origin}
             status={character.status}
             image={character.image}
+            onClose = {() => window.alert("Emulamos que cerramos la card")}
          />
             
             
