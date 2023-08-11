@@ -1,4 +1,5 @@
 import './App.css';
+import axios from 'axios';
 import { useState, useEffect } from "react"
 import Card from './components/Card.jsx';
 import Cards from './components/Cards.jsx';
@@ -24,13 +25,23 @@ function App() {
 
    const [characters, setCharacters] = useState([]);
    
-   const onClose = () => window.alert("Emulamos que cerramos la card");
+   const onClose = (id) => {
+      const filtered = characters.filter((char) => char.id ==! id)
+      setCharacters(filtered) 
+   }
    
-   function onSearch (characterID) {
-      console.log(characterID);
-      setCharacters([...characters, example]); 
-}
-  
+   function onSearch(characterID) {
+      axios(`https://rickandmortyapi.com/api/character/${characterID}`).then(({ data }) => {
+         if (data.name) {
+            setCharacters((oldChars) => [...oldChars, data]);
+         } else {
+            window.alert('¡No hay personajes con este ID!');
+         }
+      }).catch((error) => {
+         window.alert(error.response.data.error);
+      });
+   }
+
 return (
       <div className='App'>
          <Nav onSearch={onSearch}/>
