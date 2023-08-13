@@ -1,13 +1,15 @@
-export default function Card(props) {
+export default function Card({character, onClose}) {
+   const {id, name, species, gender, origin, image, status } = character; 
    return (
-      <div>
-         <button onClick={props.onClose}>X</button>
-         <h2>{props.name}</h2>
-         <h4>{props.species}</h4>
-         <h4>{props.gender}</h4>
-         <h4>{props.origin}</h4>
-         <h4>{props.status}</h4>
-         <img src={props.image} alt={props.name} />
+      <div id={id}>
+         <button onClick={() => onClose(id)}>X</button>
+         <h2>{name}</h2>
+         <h4>{species}</h4>
+         <h4>{gender}</h4>
+         <h4>{origin.name}</h4>
+         <h4>{status}</h4>
+         <img src={image} alt="not found" />
       </div>
    );
-} //hola 
+}
+ 
