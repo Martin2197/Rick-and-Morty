@@ -5,12 +5,14 @@ import { Routes, Route } from 'react-router-dom';
 import Cards from './components/Cards.jsx';
 import Nav from './components/Nav';
 import About from './components/About';
+import Detail from './components/Detail';
+import Home from './components/Home';
 
 
 
 
 function App() { 
-
+   const [character, setCharacter] = useState({})
    const [characters, setCharacters] = useState([]);
    
    const onClose = (id) => {
@@ -18,10 +20,14 @@ function App() {
       setCharacters(filtered)  
    }
    
-   function onSearch(characterID) {
+   function onSearch(characterID, string = "all") {
       axios(`https://rickandmortyapi.com/api/character/${characterID}`).then(({ data }) => {
-         if (data.name) {
-            setCharacters([...characters, data]);
+         if (data.id) {
+            if(string != "all"){
+               setCharacter(data)
+            }else{
+               setCharacters([...characters, data]);
+            }
          } else {
             window.alert(`¡No hay personajes con este ID!: ${characterID}`);
          }
@@ -33,10 +39,11 @@ function App() {
 return (
       <div className='App'>
          <Nav onSearch={onSearch}/>
-         
+
          <Routes>
-            <Route path="/home" element={<Cards characters={characters} onClose={onClose}/>}/>
+            <Route path="/home" element={<Home characters={characters} onClose={onClose}/>}/>
             <Route path="/about" element={ <About/> }/>   
+            <Route path='/detail/:id' element={<Detail character={character} onSearch={onSearch}/>}/>
          </Routes>
          
       </div>
